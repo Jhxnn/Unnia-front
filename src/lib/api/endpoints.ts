@@ -5,8 +5,11 @@ import type {
   Me,
   NewEventInput,
   NgoProfile,
+  NgoReview,
   RegisterNgoInput,
   RegisterVolunteerInput,
+  ReportView,
+  VerificationStatus,
 } from './types'
 
 export const meApi = {
@@ -55,4 +58,22 @@ export const eventsApi = {
 
 export const ngosApi = {
   get: (ngoId: string) => request<NgoProfile>(`/api/ngos/${ngoId}`),
+}
+
+export const adminApi = {
+  /** Fila de revisão de ONGs por situação de verificação, em ordem alfabética. */
+  ngos: (status: VerificationStatus, page: number, size: number, signal?: AbortSignal) =>
+    request<NgoReview[]>('/api/admin/ngos', { query: { status, page, size }, signal }),
+  verifyNgo: (ngoId: string) => request<void>(`/api/admin/ngos/${ngoId}/verify`, { method: 'POST' }),
+  rejectNgo: (ngoId: string) => request<void>(`/api/admin/ngos/${ngoId}/reject`, { method: 'POST' }),
+  suspendAccount: (accountId: string) => request<void>(`/api/admin/accounts/${accountId}/suspend`, { method: 'POST' }),
+  activateAccount: (accountId: string) =>
+    request<void>(`/api/admin/accounts/${accountId}/activate`, { method: 'POST' }),
+  /** Denúncias abertas, da mais antiga para a mais nova. */
+  reports: (page: number, size: number, signal?: AbortSignal) =>
+    request<ReportView[]>('/api/admin/reports', { query: { page, size }, signal }),
+  /** Encerra a denúncia como procedente; com takeDown, remove o conteúdo (ou suspende a conta). */
+  resolveReport: (reportId: string, takeDown: boolean) =>
+    request<void>(`/api/admin/reports/${reportId}/resolve`, { method: 'POST', body: { takeDown } }),
+  dismissReport: (reportId: string) => request<void>(`/api/admin/reports/${reportId}/dismiss`, { method: 'POST' }),
 }

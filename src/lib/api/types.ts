@@ -94,3 +94,40 @@ export interface RegisterNgoInput {
   description: string
   city: string
 }
+
+export type AccountStatus = 'ACTIVE' | 'SUSPENDED'
+
+/** GET /api/admin/ngos: fila de revisão de ONGs (só ADMIN). */
+export interface NgoReview {
+  ngoId: string
+  accountId: string
+  name: string
+  cnpj: string
+  description: string
+  city: string
+  email: string
+  verificationStatus: VerificationStatus
+  accountStatus: AccountStatus
+}
+
+export type ReportReason = 'SPAM' | 'ABUSE' | 'FRAUD' | 'INAPPROPRIATE_CONTENT' | 'OTHER'
+
+export type ReportTargetType = 'POST' | 'COMMENT' | 'ACCOUNT'
+
+export interface ReportTarget {
+  type: ReportTargetType
+  id: string
+}
+
+/** GET /api/admin/reports: denúncias abertas, da mais antiga para a mais nova (só ADMIN). */
+export interface ReportView {
+  reportId: string
+  reporterId: string
+  target: ReportTarget
+  reason: ReportReason
+  /** Trecho do conteúdo (ou e-mail da conta) denunciado; nulo se o conteúdo já não existe. */
+  targetSummary: string | null
+  details: string | null
+  createdAt: string
+  status: 'OPEN' | 'RESOLVED' | 'DISMISSED'
+}

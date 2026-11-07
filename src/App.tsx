@@ -4,6 +4,7 @@ import { AppLayout } from './components/AppLayout'
 import { ToastProvider } from './components/ToastProvider'
 import { RequireAuth } from './features/auth/RequireAuth'
 import { ApiError } from './lib/api/errors'
+import { AdminPage } from './pages/AdminPage'
 import { EventDetailPage } from './pages/EventDetailPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
           { path: 'ong/eventos', element: <NgoEventsPage /> },
           { path: 'ong/eventos/novo', element: <NewEventPage /> },
         ],
+      },
+      {
+        element: <RequireAuth role="ADMIN" />,
+        children: [{ path: 'admin', element: <AdminPage /> }],
       },
       { path: '*', element: <NotFoundPage /> },
     ],

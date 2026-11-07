@@ -40,6 +40,11 @@ function Header() {
               Minhas inscrições
             </NavLink>
           ) : null}
+          {session?.role === 'ADMIN' ? (
+            <NavLink to="/admin" className={navClass}>
+              Painel da equipe
+            </NavLink>
+          ) : null}
           {session?.role === 'NGO' ? (
             <NavLink to="/ong/eventos" className={navClass}>
               Meus eventos

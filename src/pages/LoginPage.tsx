@@ -4,7 +4,7 @@ import { Button } from '../components/Button'
 import { FormError, TextField } from '../components/Field'
 import { useSession } from '../features/auth/useSession'
 import { signIn } from '../lib/api/client'
-import { ApiError, RateLimitError, describeError } from '../lib/api/errors'
+import { ApiError, RateLimitError, describeError, isApiError } from '../lib/api/errors'
 import { safeNext } from '../lib/formErrors'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import './page.css'
@@ -44,6 +44,11 @@ export function LoginPage() {
       await signIn(email.trim(), password)
       navigate(next, { replace: true })
     } catch (caught) {
+      // 403 no login quer dizer que a senha está certa, mas o e-mail ainda não foi confirmado
+      if (isApiError(caught, 403)) {
+        navigate(`/confirme-seu-email?email=${encodeURIComponent(email.trim())}`, { replace: true })
+        return
+      }
       setError(loginMessage(caught))
     } finally {
       setBusy(false)

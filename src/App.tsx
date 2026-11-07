@@ -7,6 +7,7 @@ import { ApiError } from './lib/api/errors'
 import { AdminPage } from './pages/AdminPage'
 import { EditProfilePage } from './pages/EditProfilePage'
 import { FeedPage } from './pages/FeedPage'
+import { CheckEmailPage } from './pages/CheckEmailPage'
 import { EditEventPage } from './pages/EditEventPage'
 import { EventDetailPage } from './pages/EventDetailPage'
 import { EventsPage } from './pages/EventsPage'
@@ -21,6 +22,7 @@ import { NgosPage } from './pages/NgosPage'
 import { NotificationsPage } from './pages/NotificationsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { PostPage } from './pages/PostPage'
+import { VerifyEmailPage } from './pages/VerifyEmailPage'
 import { RegisterChoicePage } from './pages/RegisterChoicePage'
 import { RegisterNgoPage } from './pages/RegisterNgoPage'
 import { RegisterVolunteerPage } from './pages/RegisterVolunteerPage'
@@ -47,6 +49,8 @@ const router = createBrowserRouter([
       { path: 'ongs/:ngoId', element: <NgoProfilePage /> },
       { path: 'voluntarios/:volunteerId', element: <VolunteerProfilePage /> },
       { path: 'entrar', element: <LoginPage /> },
+      { path: 'confirme-seu-email', element: <CheckEmailPage /> },
+      { path: 'verificar-email', element: <VerifyEmailPage /> },
       { path: 'cadastro', element: <RegisterChoicePage /> },
       { path: 'cadastro/voluntario', element: <RegisterVolunteerPage /> },
       { path: 'cadastro/ong', element: <RegisterNgoPage /> },

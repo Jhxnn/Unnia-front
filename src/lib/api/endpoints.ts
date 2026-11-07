@@ -44,6 +44,12 @@ export const authApi = {
       body: input,
       auth: false,
     }),
+  /** Confirma o e-mail com o token do link recebido. Abrir o mesmo link de novo também dá certo. */
+  verifyEmail: (token: string) =>
+    request<void>('/api/auth/verify-email', { method: 'POST', body: { token }, auth: false }),
+  /** Reenvia o link. A API responde igual exista a conta ou não. */
+  resendVerification: (email: string) =>
+    request<void>('/api/auth/resend-verification', { method: 'POST', body: { email }, auth: false }),
   changePassword: (currentPassword: string, newPassword: string) =>
     request<void>('/api/auth/password', { method: 'PUT', body: { currentPassword, newPassword } }),
 }

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { FormError, TextArea, TextField } from '../components/Field'
 import { useToast } from '../components/useToast'
-import { signIn } from '../lib/api/client'
 import { authApi } from '../lib/api/endpoints'
 import { formErrorsFrom, type FormErrors } from '../lib/formErrors'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
@@ -29,9 +28,8 @@ export function RegisterVolunteerPage() {
     try {
       const email = form.email.trim()
       await authApi.registerVolunteer({ ...form, email, name: form.name.trim(), city: form.city.trim() })
-      await signIn(email, form.password)
-      toast.success('Conta criada. Veja os eventos abertos e reserve sua vaga.')
-      navigate('/eventos', { replace: true })
+      toast.success('Conta criada. Falta só confirmar o e-mail.')
+      navigate(`/confirme-seu-email?email=${encodeURIComponent(email)}`, { replace: true })
     } catch (caught) {
       setErrors(formErrorsFrom(caught))
     } finally {

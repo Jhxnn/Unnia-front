@@ -81,3 +81,21 @@ export function toLocalInput(date: Date): string {
 export function pluralize(count: number, singular: string, plural: string): string {
   return `${count} ${count === 1 ? singular : plural}`
 }
+
+/** "agora", "há 5 min", "há 3 h", "há 2 dias"; depois de uma semana, a data curta. */
+export function timeAgo(iso: string, now: Date = new Date()): string {
+  const seconds = Math.max(0, Math.round((now.getTime() - new Date(iso).getTime()) / 1000))
+  if (seconds < 60) return 'agora'
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `há ${minutes} min`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `há ${hours} h`
+  const days = Math.floor(hours / 24)
+  if (days < 7) return `há ${days} ${days === 1 ? 'dia' : 'dias'}`
+  return formatShort(iso)
+}
+
+/** Primeira letra do nome, para o avatar. */
+export function initialOf(name: string): string {
+  return name.trim().charAt(0).toUpperCase() || '?'
+}

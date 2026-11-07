@@ -5,17 +5,25 @@ import { ToastProvider } from './components/ToastProvider'
 import { RequireAuth } from './features/auth/RequireAuth'
 import { ApiError } from './lib/api/errors'
 import { AdminPage } from './pages/AdminPage'
+import { EditProfilePage } from './pages/EditProfilePage'
+import { FeedPage } from './pages/FeedPage'
 import { EventDetailPage } from './pages/EventDetailPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
+import { MessagesPage } from './pages/MessagesPage'
 import { MyRegistrationsPage } from './pages/MyRegistrationsPage'
 import { NewEventPage } from './pages/NewEventPage'
 import { NgoEventsPage } from './pages/NgoEventsPage'
+import { NgoProfilePage } from './pages/NgoProfilePage'
+import { NgosPage } from './pages/NgosPage'
+import { NotificationsPage } from './pages/NotificationsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { PostPage } from './pages/PostPage'
 import { RegisterChoicePage } from './pages/RegisterChoicePage'
 import { RegisterNgoPage } from './pages/RegisterNgoPage'
 import { RegisterVolunteerPage } from './pages/RegisterVolunteerPage'
+import { VolunteerProfilePage } from './pages/VolunteerProfilePage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,10 +42,24 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'eventos', element: <EventsPage /> },
       { path: 'eventos/:eventId', element: <EventDetailPage /> },
+      { path: 'ongs', element: <NgosPage /> },
+      { path: 'ongs/:ngoId', element: <NgoProfilePage /> },
+      { path: 'voluntarios/:volunteerId', element: <VolunteerProfilePage /> },
       { path: 'entrar', element: <LoginPage /> },
       { path: 'cadastro', element: <RegisterChoicePage /> },
       { path: 'cadastro/voluntario', element: <RegisterVolunteerPage /> },
       { path: 'cadastro/ong', element: <RegisterNgoPage /> },
+      {
+        element: <RequireAuth />,
+        children: [
+          { path: 'inicio', element: <FeedPage /> },
+          { path: 'posts/:postId', element: <PostPage /> },
+          { path: 'mensagens', element: <MessagesPage /> },
+          { path: 'mensagens/:conversationId', element: <MessagesPage /> },
+          { path: 'notificacoes', element: <NotificationsPage /> },
+          { path: 'perfil', element: <EditProfilePage /> },
+        ],
+      },
       {
         element: <RequireAuth role="VOLUNTEER" />,
         children: [{ path: 'inscricoes', element: <MyRegistrationsPage /> }],

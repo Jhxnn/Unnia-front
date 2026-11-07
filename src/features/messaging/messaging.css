@@ -1,0 +1,194 @@
+.inbox {
+  display: grid;
+  grid-template-columns: minmax(15rem, 20rem) 1fr;
+  min-height: 32rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-l);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.inbox__list {
+  border-right: 2px solid var(--ink);
+  overflow-y: auto;
+}
+
+.inbox__thread {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.inbox__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.inbox__head h2 {
+  font-size: var(--step-1);
+}
+
+.inbox__back {
+  display: none;
+  font-weight: 650;
+}
+
+.inbox__note {
+  margin: 0;
+  padding: var(--space-4);
+  color: var(--ink-soft);
+}
+
+.inbox__note--center {
+  margin: auto;
+  text-align: center;
+}
+
+.conversations {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conversation {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.conversation:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.conversation--active {
+  background: var(--vest-wash);
+  box-shadow: inset 5px 0 0 var(--vest);
+}
+
+.conversation__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.conversation__name {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversation__when {
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+
+/* selo de não lidas: o mesmo em conversas, menu e notificações */
+.badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--stamp);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.thread-pane {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.bubbles {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 28rem;
+  margin: 0;
+  padding: var(--space-4);
+  list-style: none;
+  overflow-y: auto;
+}
+
+.bubbles__empty {
+  margin: auto;
+  color: var(--ink-soft);
+}
+
+.bubble {
+  align-self: flex-start;
+  max-width: min(32rem, 85%);
+  padding: var(--space-2) var(--space-3);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+}
+
+.bubble--mine {
+  align-self: flex-end;
+  background: var(--blue-wash);
+  border-color: var(--blue);
+}
+
+.bubble__text {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.bubble__meta {
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+}
+
+.message-form {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line-strong);
+}
+
+.message-form .field__control {
+  flex: 1;
+}
+
+@media (max-width: 46rem) {
+  .inbox {
+    grid-template-columns: 1fr;
+  }
+
+  .inbox__list {
+    border-right: 0;
+  }
+
+  /* no celular, ou a lista ou a conversa */
+  .inbox--open .inbox__list {
+    display: none;
+  }
+
+  .inbox:not(.inbox--open) .inbox__thread {
+    display: none;
+  }
+
+  .inbox__back {
+    display: inline;
+  }
+}

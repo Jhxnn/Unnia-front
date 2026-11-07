@@ -84,16 +84,31 @@
 }
 
 .header__user {
-  max-width: 11rem;
+  max-width: 9rem;
+  color: var(--ink);
+  text-decoration: none;
   overflow: hidden;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.header__user:hover {
+  color: var(--blue);
+}
+
+/* o nome some no celular; o acesso ao perfil passa para a barra de links */
+.nav__link.nav__link--compact-only {
+  display: none;
+}
+
 @media (max-width: 40rem) {
   .header__user {
     display: none;
+  }
+
+  .nav__link.nav__link--compact-only {
+    display: inline-flex;
   }
 }
 
@@ -118,4 +133,38 @@
 .footer__text {
   color: var(--ink-soft);
   font-size: var(--step--1);
+}
+
+/* o selo de não lidas fica colado ao rótulo do link */
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.bell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-m);
+  color: var(--ink-soft);
+}
+
+.bell:hover,
+.bell--active {
+  background: var(--blue-wash);
+  color: var(--ink);
+}
+
+.bell svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.bell .badge {
+  position: absolute;
+  top: -0.1rem;
+  right: -0.15rem;
 }

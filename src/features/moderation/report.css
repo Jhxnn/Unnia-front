@@ -1,0 +1,16 @@
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(100%, 26rem);
+  padding: var(--space-4);
+  background: var(--card);
+  border: 2px solid var(--stamp);
+  border-radius: var(--radius-m);
+}
+
+.report__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

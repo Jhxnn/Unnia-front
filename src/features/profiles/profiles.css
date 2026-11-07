@@ -1,0 +1,131 @@
+.profile-head {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 2px solid var(--ink);
+}
+
+.profile-head .avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2rem;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.profile-head__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.profile-head__name {
+  font-size: var(--step-3);
+  overflow-wrap: anywhere;
+}
+
+.profile-head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.profile-head__about {
+  margin: var(--space-2) 0 0;
+  max-width: 40rem;
+  white-space: pre-wrap;
+}
+
+.profile-head__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.profile-head__followers {
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+
+.profile-posts__title {
+  margin-bottom: var(--space-3);
+  font-size: var(--step-2);
+}
+
+/* vitrine de ONGs */
+.ngo-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ngo-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-4);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-l);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+.ngo-card:hover {
+  color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.ngo-card__name {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 750;
+}
+
+.ngo-card__city {
+  color: var(--blue-deep);
+  font-size: var(--step--1);
+  font-weight: 650;
+}
+
+.ngo-card__about {
+  display: -webkit-box;
+  color: var(--ink-soft);
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* edição do próprio perfil */
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.settings__title {
+  margin-bottom: var(--space-3);
+  font-size: var(--step-2);
+}
+
+@media (max-width: 34rem) {
+  .profile-head {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,249 @@
+/* autor: o quadrado com a inicial ecoa a fileira de vagas, e o amarelo-colete fica para quem é voluntário */
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-s);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.avatar--ngo {
+  background: var(--blue);
+  color: #fff;
+}
+
+.avatar--volunteer {
+  background: var(--vest);
+  color: var(--ink);
+}
+
+.avatar--admin {
+  background: var(--ink);
+  color: var(--vest);
+}
+
+.avatar--unknown {
+  background: var(--paper);
+  color: var(--ink-faint);
+  border-color: var(--line-strong);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.author__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.author__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  font-weight: 700;
+}
+
+.author__name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.author__name a:hover {
+  text-decoration: underline;
+}
+
+.author__aside {
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+
+.author__aside a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* compositor */
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-l);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.composer__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.composer__event {
+  flex: 1 1 14rem;
+  max-width: 22rem;
+}
+
+/* feed: uma linha de assinatura entre postagens, como nas listas de inscritos */
+.posts {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--ink);
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.post__time {
+  color: inherit;
+}
+
+.post__text {
+  margin: 0;
+  max-width: 44rem;
+  font-size: var(--step-0);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.post__event {
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  background: var(--vest-wash);
+  border-left: 4px solid var(--vest);
+  border-radius: var(--radius-s);
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.post__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.post__comments {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--line);
+}
+
+/* reações */
+.reactions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.reaction {
+  padding: 0.3rem 0.85rem;
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.reaction:hover:not(:disabled) {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.reaction[aria-pressed='true'] {
+  background: var(--vest);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.reactions__count {
+  margin-left: var(--space-2);
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+
+/* comentários */
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.thread__empty {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comments--replies {
+  margin-top: var(--space-3);
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--line);
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.comment .avatar {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.95rem;
+}
+
+.comment__text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.comment__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.comment-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.comment-form .field__control {
+  flex: 1 1 14rem;
+}

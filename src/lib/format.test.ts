@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dateParts, formatFullDate, formatPeriod, formatShort, localInputToIso, pluralize, toLocalInput } from './format'
+import { dateParts, formatFullDate, formatPeriod, formatShort, initialOf, localInputToIso, pluralize, timeAgo, toLocalInput } from './format'
 
 /** Instante em hora local, para os testes não dependerem do fuso da máquina. */
 function local(year: number, month: number, day: number, hour = 0, minute = 0): string {
@@ -55,5 +55,33 @@ describe('pluralize', () => {
     expect(pluralize(1, 'vaga livre', 'vagas livres')).toBe('1 vaga livre')
     expect(pluralize(0, 'vaga livre', 'vagas livres')).toBe('0 vagas livres')
     expect(pluralize(12, 'vaga livre', 'vagas livres')).toBe('12 vagas livres')
+  })
+})
+
+describe('timeAgo', () => {
+  const now = new Date(2026, 10, 7, 12, 0, 0)
+  const ago = (ms: number) => new Date(now.getTime() - ms).toISOString()
+
+  it('descreve o passado recente em palavras', () => {
+    expect(timeAgo(ago(20_000), now)).toBe('agora')
+    expect(timeAgo(ago(5 * 60_000), now)).toBe('há 5 min')
+    expect(timeAgo(ago(3 * 3600_000), now)).toBe('há 3 h')
+    expect(timeAgo(ago(24 * 3600_000), now)).toBe('há 1 dia')
+    expect(timeAgo(ago(3 * 24 * 3600_000), now)).toBe('há 3 dias')
+  })
+
+  it('depois de uma semana mostra a data', () => {
+    expect(timeAgo(new Date(2026, 9, 20, 9, 30).toISOString(), now)).toBe('20 out, 09:30')
+  })
+
+  it('um horário no futuro (relógios desencontrados) vira "agora"', () => {
+    expect(timeAgo(new Date(now.getTime() + 60_000).toISOString(), now)).toBe('agora')
+  })
+})
+
+describe('initialOf', () => {
+  it('usa a primeira letra, em maiúscula', () => {
+    expect(initialOf('  maria souza')).toBe('M')
+    expect(initialOf('')).toBe('?')
   })
 })

@@ -135,3 +135,32 @@ button {
     scroll-behavior: auto !important;
   }
 }
+
+/* etiquetas curtas (papel, motivo, situação) */
+.chip {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: var(--step--1);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.chip--blue {
+  background: var(--blue-wash);
+  color: var(--blue-deep);
+}
+
+.chip--stamp {
+  background: var(--stamp-wash);
+  color: var(--stamp);
+}
+
+.chip--ok {
+  background: var(--ok-wash);
+  color: var(--ok);
+}
+
+.chip--vest {
+  background: var(--vest-wash);
+  color: var(--ink);
+}

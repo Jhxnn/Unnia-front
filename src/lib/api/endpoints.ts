@@ -1,15 +1,29 @@
 import { request } from './client'
 import type {
+  CommentView,
+  ConversationView,
   EventView,
-  Registrant,
+  FollowStatus,
   Me,
+  MessageView,
   NewEventInput,
+  NgoCard,
   NgoProfile,
   NgoReview,
+  NotificationView,
+  PostView,
+  PublishPostInput,
+  ReactionType,
+  Registrant,
   RegisterNgoInput,
   RegisterVolunteerInput,
+  ReportReason,
+  ReportTargetType,
   ReportView,
+  UpdateNgoInput,
+  UpdateVolunteerInput,
   VerificationStatus,
+  VolunteerProfile,
 } from './types'
 
 export const meApi = {
@@ -76,4 +90,68 @@ export const adminApi = {
   resolveReport: (reportId: string, takeDown: boolean) =>
     request<void>(`/api/admin/reports/${reportId}/resolve`, { method: 'POST', body: { takeDown } }),
   dismissReport: (reportId: string) => request<void>(`/api/admin/reports/${reportId}/dismiss`, { method: 'POST' }),
+}
+
+export const postsApi = {
+  /** Postagens da própria conta e de quem ela segue, da mais recente para a mais antiga. */
+  feed: (page: number, size: number, signal?: AbortSignal) =>
+    request<PostView[]>('/api/posts/feed', { query: { page, size }, signal }),
+  get: (postId: string) => request<PostView>(`/api/posts/${postId}`),
+  byAuthor: (accountId: string) => request<PostView[]>(`/api/posts/author/${accountId}`),
+  publish: (input: PublishPostInput) => request<{ postId: string }>('/api/posts', { method: 'POST', body: input }),
+  remove: (postId: string) => request<void>(`/api/posts/${postId}`, { method: 'DELETE' }),
+  comments: (postId: string) => request<CommentView[]>(`/api/posts/${postId}/comments`),
+  comment: (postId: string, text: string) =>
+    request<{ commentId: string }>(`/api/posts/${postId}/comments`, { method: 'POST', body: { text } }),
+  reply: (commentId: string, text: string) =>
+    request<{ commentId: string }>(`/api/comments/${commentId}/replies`, { method: 'POST', body: { text } }),
+  removeComment: (commentId: string) => request<void>(`/api/comments/${commentId}`, { method: 'DELETE' }),
+  react: (postId: string, type: ReactionType) =>
+    request<void>('/api/reactions', { method: 'PUT', body: { targetType: 'POST', targetId: postId, type } }),
+  unreact: (postId: string) =>
+    request<void>('/api/reactions', { method: 'DELETE', query: { targetType: 'POST', targetId: postId } }),
+}
+
+export const followsApi = {
+  status: (accountId: string) => request<FollowStatus>(`/api/follows/${accountId}`),
+  follow: (accountId: string) => request<void>(`/api/follows/${accountId}`, { method: 'POST' }),
+  unfollow: (accountId: string) => request<void>(`/api/follows/${accountId}`, { method: 'DELETE' }),
+}
+
+export const reportsApi = {
+  file: (targetType: ReportTargetType, targetId: string, reason: ReportReason, details: string) =>
+    request<{ reportId: string }>('/api/reports', {
+      method: 'POST',
+      body: { targetType, targetId, reason, details: details.trim() || undefined },
+    }),
+}
+
+export const profilesApi = {
+  ngos: (page: number, size: number, signal?: AbortSignal) =>
+    request<NgoCard[]>('/api/ngos', { query: { page, size }, signal }),
+  volunteer: (volunteerId: string) => request<VolunteerProfile>(`/api/volunteers/${volunteerId}`),
+  updateNgo: (input: UpdateNgoInput) => request<void>('/api/ngos/me', { method: 'PUT', body: input }),
+  updateVolunteer: (input: UpdateVolunteerInput) => request<void>('/api/volunteers/me', { method: 'PUT', body: input }),
+}
+
+export const messagesApi = {
+  conversations: () => request<ConversationView[]>('/api/conversations'),
+  messages: (conversationId: string, page = 0, size = 50) =>
+    request<MessageView[]>(`/api/conversations/${conversationId}/messages`, { query: { page, size } }),
+  send: (recipientId: string, text: string) =>
+    request<{ conversationId: string; messageId: string }>('/api/messages', {
+      method: 'POST',
+      body: { recipientId, text },
+    }),
+  markRead: (conversationId: string) =>
+    request<void>(`/api/conversations/${conversationId}/read`, { method: 'POST' }),
+}
+
+export const notificationsApi = {
+  list: (page: number, size: number, signal?: AbortSignal) =>
+    request<NotificationView[]>('/api/notifications', { query: { page, size }, signal }),
+  unreadCount: () => request<{ count: number }>('/api/notifications/unread-count'),
+  markRead: (notificationId: string) =>
+    request<void>(`/api/notifications/${notificationId}/read`, { method: 'POST' }),
+  markAllRead: () => request<void>('/api/notifications/read-all', { method: 'POST' }),
 }

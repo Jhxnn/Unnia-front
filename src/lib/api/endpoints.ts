@@ -1,6 +1,7 @@
 import { request } from './client'
 import type {
   EventView,
+  Registrant,
   Me,
   NewEventInput,
   NgoProfile,
@@ -43,6 +44,11 @@ export const eventsApi = {
   cancel: (eventId: string) => request<void>(`/api/events/${eventId}/cancel`, { method: 'POST' }),
   finish: (eventId: string) => request<void>(`/api/events/${eventId}/finish`, { method: 'POST' }),
   register: (eventId: string) => request<void>(`/api/events/${eventId}/registrations`, { method: 'POST' }),
+  /** Quem está inscrito. Só a ONG dona do evento enxerga a lista. */
+  registrants: (eventId: string) => request<Registrant[]>(`/api/events/${eventId}/registrations`),
+  /** A ONG dona registra a presença de um voluntário inscrito; só vale depois do início do evento. */
+  recordAttendance: (eventId: string, volunteerId: string) =>
+    request<void>(`/api/events/${eventId}/attendance/${volunteerId}`, { method: 'POST' }),
   cancelRegistration: (eventId: string) =>
     request<void>(`/api/events/${eventId}/registrations`, { method: 'DELETE' }),
 }

@@ -35,6 +35,10 @@ export interface EventActions {
     publishBlockedByVerification: boolean
     canCancel: boolean
     canFinish: boolean
+    /** Só com o evento publicado e já iniciado, como no backend. */
+    canRecordAttendance: boolean
+    /** A lista de inscritos faz sentido a partir da publicação. */
+    canSeeRegistrants: boolean
   }
 }
 
@@ -61,6 +65,8 @@ export function eventActions({ event, me, isRegistered, now }: Input): EventActi
       publishBlockedByVerification: isOwner && phase === 'draft' && me?.verificationStatus !== 'VERIFIED',
       canCancel: isOwner && (phase === 'draft' || notStarted || phase === 'ongoing'),
       canFinish: isOwner && event.status === 'PUBLISHED' && new Date(event.end) <= now,
+      canRecordAttendance: isOwner && event.status === 'PUBLISHED' && new Date(event.start) <= now,
+      canSeeRegistrants: isOwner && phase !== 'draft',
     },
   }
 }

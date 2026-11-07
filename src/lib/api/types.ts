@@ -47,6 +47,17 @@ export interface EventView {
   status: EventStatus
 }
 
+export type RegistrationStatus = 'CONFIRMED' | 'ATTENDED'
+
+/** GET /api/events/{id}/registrations (só a ONG dona). Inscrições ativas, da mais antiga para a mais nova. */
+export interface Registrant {
+  volunteerId: string
+  name: string
+  city: string
+  status: RegistrationStatus
+  registeredAt: string
+}
+
 export interface NgoProfile {
   ngoId: string
   name: string

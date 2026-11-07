@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dateParts, formatFullDate, formatPeriod, localInputToIso, pluralize, toLocalInput } from './format'
+import { dateParts, formatFullDate, formatPeriod, formatShort, localInputToIso, pluralize, toLocalInput } from './format'
 
 /** Instante em hora local, para os testes não dependerem do fuso da máquina. */
 function local(year: number, month: number, day: number, hour = 0, minute = 0): string {
@@ -22,6 +22,12 @@ describe('dateParts', () => {
 describe('formatFullDate', () => {
   it('traz dia da semana, dia e mês por extenso, sem a hora', () => {
     expect(formatFullDate(local(2026, 11, 14, 9, 30))).toBe('sábado, 14 de novembro')
+  })
+})
+
+describe('formatShort', () => {
+  it('traz dia, mês e hora', () => {
+    expect(formatShort(local(2026, 11, 7, 14, 46))).toBe('7 nov, 14:46')
   })
 })
 

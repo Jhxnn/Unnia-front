@@ -60,6 +60,12 @@ export function formatPeriod(startIso: string, endIso: string): string {
   return `${startText} até ${shortDate(end)}, ${timeFormat.format(end)}`
 }
 
+/** "7 nov, 14:46" */
+export function formatShort(iso: string): string {
+  const date = new Date(iso)
+  return `${shortDate(date)}, ${timeFormat.format(date)}`
+}
+
 /** Converte o valor de um <input type="datetime-local"> (hora local) em ISO 8601 (UTC). */
 export function localInputToIso(value: string): string {
   return new Date(value).toISOString()

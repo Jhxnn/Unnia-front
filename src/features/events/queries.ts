@@ -10,6 +10,7 @@ export const eventKeys = {
   detail: (eventId: string) => ['events', 'detail', eventId] as const,
   mine: ['events', 'mine'] as const,
   registered: ['events', 'registered'] as const,
+  registrants: (eventId: string) => ['events', 'registrants', eventId] as const,
 }
 
 export const UPCOMING_PAGE_SIZE = 12
@@ -49,6 +50,29 @@ export function useMyEvents(enabled: boolean) {
 /** Eventos em que o voluntário logado está inscrito. */
 export function useMyRegistrations(enabled: boolean) {
   return useQuery({ queryKey: eventKeys.registered, queryFn: eventsApi.registered, enabled })
+}
+
+/** Inscritos no evento. Só faz sentido (e só funciona) para a ONG dona. */
+export function useRegistrants(eventId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: eventKeys.registrants(eventId),
+    queryFn: () => eventsApi.registrants(eventId),
+    enabled,
+  })
+}
+
+/** Registra a presença de um voluntário e atualiza a lista de inscritos. */
+export function useRecordAttendance(eventId: string) {
+  const queryClient = useQueryClient()
+  const toast = useToast()
+  return useMutation({
+    mutationFn: (volunteerId: string) => eventsApi.recordAttendance(eventId, volunteerId),
+    onSuccess: () => {
+      toast.success('Presença registrada.')
+      return queryClient.invalidateQueries({ queryKey: eventKeys.registrants(eventId) })
+    },
+    onError: (error) => toast.error(describeError(error)),
+  })
 }
 
 /** Ação sobre um evento (publicar, inscrever-se...) que avisa o resultado e atualiza as listas. */

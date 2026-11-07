@@ -12,6 +12,7 @@ import {
   useMyRegistrations,
   useOrganizer,
 } from '../features/events/queries'
+import { RegistrantsSection } from '../features/events/RegistrantsSection'
 import { SlotCaption, SlotStrip } from '../features/events/SlotStrip'
 import { eventsApi } from '../lib/api/endpoints'
 import { describeError, isApiError } from '../lib/api/errors'
@@ -187,6 +188,8 @@ export function EventDetailPage() {
             <p className="detail__description">{event.description}</p>
           </section>
         ) : null}
+
+        <RegistrantsSection event={event} />
       </div>
 
       <SignUpPanel event={event} />

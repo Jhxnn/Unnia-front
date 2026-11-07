@@ -18,6 +18,7 @@ export function RegisterVolunteerPage() {
   const toast = useToast()
 
   const [form, setForm] = useState({ name: '', email: '', password: '', bio: '' })
+  const [confirm, setConfirm] = useState('')
   const [address, setAddress] = useState(EMPTY_ADDRESS)
   const [addressErrors, setAddressErrors] = useState<AddressErrors>({})
   const [errors, setErrors] = useState<FormErrors>({ fields: {}, form: null })
@@ -28,6 +29,10 @@ export function RegisterVolunteerPage() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setErrors({ fields: {}, form: null })
+    if (form.password !== confirm) {
+      setErrors({ fields: { confirm: 'A confirmação precisa ser igual à senha.' }, form: null })
+      return
+    }
     const found = validateAddress(address, 'region', true)
     setAddressErrors(found)
     if (hasAddressErrors(found)) return
@@ -83,6 +88,15 @@ export function RegisterVolunteerPage() {
           value={form.password}
           error={errors.fields.password}
           onChange={(event) => set('password')(event.target.value)}
+          required
+        />
+        <TextField
+          label="Confirmar senha"
+          type="password"
+          autoComplete="new-password"
+          value={confirm}
+          error={errors.fields.confirm}
+          onChange={(event) => setConfirm(event.target.value)}
           required
         />
         <AddressFields

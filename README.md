@@ -107,6 +107,14 @@ A assinatura visual é a **fileira de vagas** (`SlotStrip`): cada vaga é uma li
 ficam marcadas em amarelo. Ela mostra, de relance, o que os números dizem, e nunca os contradiz: não aparece
 cheia se ainda há vaga, nem vazia se já há inscritos. Respeita `prefers-reduced-motion`.
 
+## Endereço pelo CEP
+
+Os formulários com endereço (cadastros, evento novo, edição de evento e de perfil) usam o [ViaCEP](https://viacep.com.br), serviço público e gratuito consultado direto do navegador (`src/lib/viacep.ts`). Ao completar os 8 números do CEP, o app preenche rua, bairro, cidade e estado; tudo continua editável, e se o ViaCEP estiver fora do ar a pessoa preenche à mão. A API recebe `address` (rua, número, complemento e bairro numa linha), `city`, `state` (UF) e `cep`. O CEP é obrigatório nos cadastros novos e opcional nas edições, porque registros antigos não o têm.
+
+## Confirmação de e-mail
+
+Depois do cadastro, a pessoa vai para `/confirme-seu-email` (reenvio com espera de 1 minuto) e só entra depois de abrir o link, que cai em `/verificar-email`. Um 403 no login leva à mesma tela.
+
 ## Limites conhecidos
 
 - Não há tela para promover alguém a administrador (a API também não oferece): o administrador é o da seed.

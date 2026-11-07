@@ -42,6 +42,7 @@ const pendingNgo: NgoReview = {
   cnpj: '11.222.333/0001-81',
   description: 'Abrigo.',
   city: 'Olinda',
+  state: 'PE',
   email: 'casa@viva.org',
   verificationStatus: 'PENDING',
   accountStatus: 'ACTIVE',

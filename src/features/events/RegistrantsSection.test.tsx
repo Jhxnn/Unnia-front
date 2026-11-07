@@ -42,6 +42,8 @@ function event(overrides: Partial<EventView> = {}): EventView {
     description: '',
     address: 'Rua A',
     city: 'Recife',
+    state: null,
+    cep: null,
     start: new Date(Date.now() - HOUR).toISOString(),
     end: new Date(Date.now() + 3 * HOUR).toISOString(),
     capacity: 10,

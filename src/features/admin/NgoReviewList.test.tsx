@@ -12,6 +12,7 @@ function ngo(overrides: Partial<NgoReview> = {}): NgoReview {
     cnpj: '11.222.333/0001-81',
     description: 'Abrigo temporário para mulheres.',
     city: 'Olinda',
+    state: 'PE',
     email: 'casa@viva.org',
     verificationStatus: 'PENDING',
     accountStatus: 'ACTIVE',
@@ -31,7 +32,7 @@ describe('NgoReviewList', () => {
 
     expect(screen.getByRole('heading', { name: 'Casa Viva' })).toBeInTheDocument()
     expect(screen.getByText('11.222.333/0001-81')).toBeInTheDocument()
-    expect(screen.getByText('Olinda')).toBeInTheDocument()
+    expect(screen.getByText('Olinda - PE')).toBeInTheDocument()
     expect(screen.getByText('casa@viva.org')).toBeInTheDocument()
     expect(screen.getByText('Abrigo temporário para mulheres.')).toBeInTheDocument()
   })

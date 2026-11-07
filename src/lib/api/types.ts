@@ -39,6 +39,10 @@ export interface EventView {
   description: string
   address: string
   city: string
+  /** Sigla da UF; nulo em registros anteriores ao preenchimento por CEP. */
+  state: string | null
+  /** "50030-230"; nulo em registros anteriores ao preenchimento por CEP. */
+  cep: string | null
   start: string
   end: string
   capacity: number
@@ -66,6 +70,10 @@ export interface NgoProfile {
   cnpj: string
   description: string
   city: string
+  /** Sigla da UF; nulo em registros anteriores ao preenchimento por CEP. */
+  state: string | null
+  /** "50030-230"; nulo em registros anteriores ao preenchimento por CEP. */
+  cep: string | null
   verificationStatus: VerificationStatus
 }
 
@@ -74,6 +82,10 @@ export interface NewEventInput {
   description: string
   address: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
   /** ISO 8601 */
   start: string
   end: string
@@ -86,6 +98,10 @@ export interface EventDetailsInput {
   description: string
   address: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
 }
 
 export interface RegisterVolunteerInput {
@@ -94,6 +110,10 @@ export interface RegisterVolunteerInput {
   name: string
   bio: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
 }
 
 export interface RegisterNgoInput {
@@ -103,6 +123,10 @@ export interface RegisterNgoInput {
   name: string
   description: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
 }
 
 export type AccountStatus = 'ACTIVE' | 'SUSPENDED'
@@ -115,6 +139,7 @@ export interface NgoReview {
   cnpj: string
   description: string
   city: string
+  state: string | null
   email: string
   verificationStatus: VerificationStatus
   accountStatus: AccountStatus
@@ -205,6 +230,7 @@ export interface NgoCard {
   name: string
   description: string
   city: string
+  state: string | null
 }
 
 /** GET /api/volunteers/{id} */
@@ -214,18 +240,30 @@ export interface VolunteerProfile {
   name: string
   bio: string
   city: string
+  /** Sigla da UF; nulo em registros anteriores ao preenchimento por CEP. */
+  state: string | null
+  /** "50030-230"; nulo em registros anteriores ao preenchimento por CEP. */
+  cep: string | null
 }
 
 export interface UpdateNgoInput {
   name: string
   description: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
 }
 
 export interface UpdateVolunteerInput {
   name: string
   bio: string
   city: string
+  /** Sigla da UF. Ausente mantém o valor atual; vazio limpa. */
+  state?: string
+  /** CEP com ou sem hífen. Ausente mantém o valor atual; vazio limpa. */
+  cep?: string
 }
 
 // ---- mensagens e notificações

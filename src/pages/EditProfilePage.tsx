@@ -5,6 +5,8 @@ import { Button } from '../components/Button'
 import { FormError, TextArea, TextField } from '../components/Field'
 import { Spinner } from '../components/Spinner'
 import { useToast } from '../components/useToast'
+import { AddressFields } from '../features/address/AddressFields'
+import { EMPTY_ADDRESS, hasAddressErrors, validateAddress, type AddressErrors } from '../features/address/address'
 import { useMe } from '../features/auth/useMe'
 import { useOrganizer } from '../features/events/queries'
 import { useChangePassword, useUpdateProfile, useVolunteer } from '../features/profiles/queries'
@@ -21,17 +23,29 @@ function ProfileForm({
   initial,
 }: {
   kind: 'NGO' | 'VOLUNTEER'
-  initial: { name: string; about: string; city: string }
+  initial: { name: string; about: string; city: string; state: string; cep: string }
 }) {
   const update = useUpdateProfile()
-  const [form, setForm] = useState(initial)
+  const [form, setForm] = useState({ name: initial.name, about: initial.about })
+  const [address, setAddress] = useState({
+    ...EMPTY_ADDRESS,
+    city: initial.city,
+    state: initial.state,
+    cep: initial.cep,
+  })
+  const [addressErrors, setAddressErrors] = useState<AddressErrors>({})
   const [errors, setErrors] = useState<FormErrors>(NO_ERRORS)
   const aboutLabel = kind === 'NGO' ? 'Sobre a ONG' : 'Sobre você'
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setErrors(NO_ERRORS)
-    const data = { name: form.name.trim(), city: form.city.trim() }
+    // perfis antigos não têm estado nem CEP: aqui eles são opcionais, mas a cidade continua obrigatória
+    const found = validateAddress(address, 'region', false)
+    if (!address.state && !address.cep.trim()) delete found.state
+    setAddressErrors(found)
+    if (hasAddressErrors(found)) return
+    const data = { name: form.name.trim(), city: address.city.trim(), state: address.state, cep: address.cep }
     try {
       if (kind === 'NGO') await update.mutateAsync({ kind, data: { ...data, description: form.about } })
       else await update.mutateAsync({ kind, data: { ...data, bio: form.about } })
@@ -49,12 +63,11 @@ function ProfileForm({
         onChange={(event) => setForm({ ...form, name: event.target.value })}
         required
       />
-      <TextField
-        label="Cidade"
-        value={form.city}
-        error={errors.fields.city}
-        onChange={(event) => setForm({ ...form, city: event.target.value })}
-        required
+      <AddressFields
+        mode="region"
+        value={address}
+        onChange={setAddress}
+        errors={{ ...addressErrors, city: addressErrors.city ?? errors.fields.city }}
       />
       <TextArea
         label={aboutLabel}
@@ -157,7 +170,12 @@ function OwnProfile({ kind, profileId }: { kind: 'NGO' | 'VOLUNTEER'; profileId:
 
   const data = query.data
   const about = 'description' in data ? data.description : data.bio
-  return <ProfileForm kind={kind} initial={{ name: data.name, city: data.city, about }} />
+  return (
+    <ProfileForm
+      kind={kind}
+      initial={{ name: data.name, city: data.city, state: data.state ?? '', cep: data.cep ?? '', about }}
+    />
+  )
 }
 
 export function EditProfilePage() {

@@ -1,6 +1,7 @@
 import { Button } from '../../components/Button'
 import { ConfirmButton } from '../../components/ConfirmButton'
 import type { NgoReview } from '../../lib/api/types'
+import { formatPlace } from '../../lib/format'
 
 interface Props {
   ngos: NgoReview[]
@@ -28,7 +29,7 @@ export function NgoReviewList({ ngos, busyNgoId, onVerify, onReject, onSuspend, 
               </h3>
               <p className="dossier__meta">
                 <span className="mono">{ngo.cnpj}</span>
-                <span>{ngo.city}</span>
+                <span>{formatPlace(ngo.city, ngo.state)}</span>
                 <span>{ngo.email}</span>
               </p>
               <p className="dossier__text">{ngo.description}</p>

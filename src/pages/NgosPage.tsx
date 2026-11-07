@@ -8,6 +8,7 @@ import { describeError } from '../lib/api/errors'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import '../features/profiles/profiles.css'
 import './page.css'
+import { formatPlace } from '../lib/format'
 
 export function NgosPage() {
   useDocumentTitle('ONGs')
@@ -49,7 +50,7 @@ export function NgosPage() {
                 <Link to={`/ongs/${ngo.ngoId}`} className="ngo-card">
                   <Avatar name={ngo.name} role="NGO" />
                   <span className="ngo-card__name">{ngo.name}</span>
-                  <span className="ngo-card__city">{ngo.city}</span>
+                  <span className="ngo-card__city">{formatPlace(ngo.city, ngo.state)}</span>
                   <span className="ngo-card__about">{ngo.description}</span>
                 </Link>
               </li>

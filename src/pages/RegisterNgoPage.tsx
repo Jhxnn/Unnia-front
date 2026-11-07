@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { FormError, TextArea, TextField } from '../components/Field'
 import { useToast } from '../components/useToast'
+import { AddressFields } from '../features/address/AddressFields'
+import { EMPTY_ADDRESS, hasAddressErrors, validateAddress, type AddressErrors } from '../features/address/address'
 import { authApi } from '../lib/api/endpoints'
 import { formErrorsFrom, type FormErrors } from '../lib/formErrors'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
@@ -13,7 +15,9 @@ export function RegisterNgoPage() {
   const navigate = useNavigate()
   const toast = useToast()
 
-  const [form, setForm] = useState({ name: '', cnpj: '', email: '', password: '', city: '', description: '' })
+  const [form, setForm] = useState({ name: '', cnpj: '', email: '', password: '', description: '' })
+  const [address, setAddress] = useState(EMPTY_ADDRESS)
+  const [addressErrors, setAddressErrors] = useState<AddressErrors>({})
   const [errors, setErrors] = useState<FormErrors>({ fields: {}, form: null })
   const [busy, setBusy] = useState(false)
 
@@ -21,11 +25,21 @@ export function RegisterNgoPage() {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    setBusy(true)
     setErrors({ fields: {}, form: null })
+    const found = validateAddress(address, 'region', true)
+    setAddressErrors(found)
+    if (hasAddressErrors(found)) return
+    setBusy(true)
     try {
       const email = form.email.trim()
-      await authApi.registerNgo({ ...form, email, name: form.name.trim(), city: form.city.trim() })
+      await authApi.registerNgo({
+        ...form,
+        email,
+        name: form.name.trim(),
+        city: address.city.trim(),
+        state: address.state,
+        cep: address.cep,
+      })
       toast.success('ONG cadastrada. Falta só confirmar o e-mail.')
       navigate(`/confirme-seu-email?email=${encodeURIComponent(email)}`, { replace: true })
     } catch (caught) {
@@ -81,13 +95,11 @@ export function RegisterNgoPage() {
           onChange={(event) => set('password')(event.target.value)}
           required
         />
-        <TextField
-          label="Cidade"
-          autoComplete="address-level2"
-          value={form.city}
-          error={errors.fields.city}
-          onChange={(event) => set('city')(event.target.value)}
-          required
+        <AddressFields
+          mode="region"
+          value={address}
+          onChange={setAddress}
+          errors={{ ...addressErrors, city: addressErrors.city ?? errors.fields.city }}
         />
         <TextArea
           label="Sobre a ONG (opcional)"

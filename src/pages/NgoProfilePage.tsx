@@ -9,6 +9,7 @@ import { AuthorPosts } from '../features/social/AuthorPosts'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import '../features/profiles/profiles.css'
 import './page.css'
+import { formatPlace } from '../lib/format'
 
 export function NgoProfilePage() {
   const { ngoId = '' } = useParams()
@@ -33,7 +34,7 @@ export function NgoProfilePage() {
       <ProfileHeader
         name={profile.name}
         role="NGO"
-        city={profile.city}
+        city={formatPlace(profile.city, profile.state)}
         about={profile.description}
         badges={
           <span className={verified ? 'chip chip--ok' : 'chip chip--blue'}>

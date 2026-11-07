@@ -36,6 +36,8 @@ function event(overrides: Partial<EventView> = {}): EventView {
     description: 'Triagem de doações',
     address: 'Rua A, 10',
     city: 'Recife',
+    state: null,
+    cep: null,
     start: new Date(Date.now() + 48 * HOUR).toISOString(),
     end: new Date(Date.now() + 52 * HOUR).toISOString(),
     capacity: 10,
@@ -102,6 +104,8 @@ describe('EditEventPage', () => {
         description: 'Triagem de doações',
         address: 'Rua A, 10',
         city: 'Recife',
+        state: '',
+        cep: '',
       }),
     )
     expect(await screen.findByText('Detalhes atualizados.')).toBeInTheDocument()

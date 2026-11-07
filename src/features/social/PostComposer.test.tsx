@@ -12,6 +12,8 @@ function event(id: string, title: string): EventView {
     description: '',
     address: 'Rua A',
     city: 'Recife',
+    state: null,
+    cep: null,
     start: new Date().toISOString(),
     end: new Date().toISOString(),
     capacity: 10,

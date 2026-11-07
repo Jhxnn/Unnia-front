@@ -1,0 +1,26 @@
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.address__row {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: minmax(6rem, 1fr) 2fr;
+}
+
+.address__row--city {
+  grid-template-columns: 3fr minmax(7rem, 1fr);
+}
+
+@media (max-width: 30rem) {
+  .address__row,
+  .address__row--city {
+    grid-template-columns: 1fr;
+  }
+}

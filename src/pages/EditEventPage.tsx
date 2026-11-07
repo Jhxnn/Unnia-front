@@ -4,6 +4,14 @@ import { Button, ButtonLink } from '../components/Button'
 import { EmptyState } from '../components/EmptyState'
 import { FormError, TextArea, TextField } from '../components/Field'
 import { Spinner } from '../components/Spinner'
+import { AddressFields } from '../features/address/AddressFields'
+import {
+  EMPTY_ADDRESS,
+  composeAddressLine,
+  hasAddressErrors,
+  validateAddress,
+  type AddressErrors,
+} from '../features/address/address'
 import { useMe } from '../features/auth/useMe'
 import { eventActions } from '../features/events/eventPolicy'
 import { useEvent, useEventEdit } from '../features/events/queries'
@@ -19,27 +27,38 @@ const NO_ERRORS: FormErrors = { fields: {}, form: null }
 
 function DetailsForm({ event }: { event: EventView }) {
   const save = useEventEdit(
-    (input: { title: string; description: string; address: string; city: string }) =>
+    (input: { title: string; description: string; address: string; city: string; state: string; cep: string }) =>
       eventsApi.update(event.eventId, input),
     'Detalhes atualizados.',
   )
-  const [form, setForm] = useState({
-    title: event.title,
-    description: event.description,
-    address: event.address,
+  const [form, setForm] = useState({ title: event.title, description: event.description })
+  // o endereço antigo é uma linha só: vai inteiro para o campo de rua; buscar o CEP de novo remonta as partes
+  const [address, setAddress] = useState({
+    ...EMPTY_ADDRESS,
+    street: event.address,
     city: event.city,
+    state: event.state ?? '',
+    cep: event.cep ?? '',
   })
+  const [addressErrors, setAddressErrors] = useState<AddressErrors>({})
   const [errors, setErrors] = useState<FormErrors>(NO_ERRORS)
 
   async function handleSubmit(submit: FormEvent) {
     submit.preventDefault()
     setErrors(NO_ERRORS)
+    // eventos antigos não têm estado nem CEP: nesta edição eles são opcionais
+    const found = validateAddress(address, 'full', false)
+    if (!address.state && !address.cep.trim()) delete found.state
+    setAddressErrors(found)
+    if (hasAddressErrors(found)) return
     try {
       await save.mutateAsync({
         title: form.title.trim(),
         description: form.description,
-        address: form.address.trim(),
-        city: form.city.trim(),
+        address: composeAddressLine(address),
+        city: address.city.trim(),
+        state: address.state,
+        cep: address.cep,
       })
     } catch (caught) {
       setErrors(formErrorsFrom(caught))
@@ -62,19 +81,15 @@ function DetailsForm({ event }: { event: EventView }) {
         error={errors.fields.description}
         onChange={(change) => setForm({ ...form, description: change.target.value })}
       />
-      <TextField
-        label="Endereço"
-        value={form.address}
-        error={errors.fields.address}
-        onChange={(change) => setForm({ ...form, address: change.target.value })}
-        required
-      />
-      <TextField
-        label="Cidade"
-        value={form.city}
-        error={errors.fields.city}
-        onChange={(change) => setForm({ ...form, city: change.target.value })}
-        required
+      <AddressFields
+        mode="full"
+        value={address}
+        onChange={setAddress}
+        errors={{
+          ...addressErrors,
+          street: addressErrors.street ?? errors.fields.address,
+          city: addressErrors.city ?? errors.fields.city,
+        }}
       />
       <div className="form-foot">
         <Button type="submit" busy={save.isPending}>

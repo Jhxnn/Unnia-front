@@ -114,7 +114,7 @@ describe('EditProfilePage', () => {
 
     expect(state.saveProfile).toHaveBeenCalledWith({
       kind: 'VOLUNTEER',
-      data: { name: 'Maria Lima', city: 'Recife', bio: 'Estudante' },
+      data: { name: 'Maria Lima', city: 'Recife', state: '', cep: '', bio: 'Estudante' },
     })
   })
 
@@ -126,7 +126,7 @@ describe('EditProfilePage', () => {
 
     expect(state.saveProfile).toHaveBeenCalledWith({
       kind: 'NGO',
-      data: { name: 'Rede Mãos', city: 'Recife', description: 'Sobre a rede' },
+      data: { name: 'Rede Mãos', city: 'Recife', state: '', cep: '', description: 'Sobre a rede' },
     })
   })
 

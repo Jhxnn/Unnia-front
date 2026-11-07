@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import type { EventView } from '../../lib/api/types'
-import { dateParts } from '../../lib/format'
+import { dateParts, formatPlace } from '../../lib/format'
 import { useNow } from '../../lib/useNow'
 import { eventPhase } from './eventPolicy'
 import { PhaseBadge } from './PhaseBadge'
@@ -30,7 +30,7 @@ export function EventCard({ event }: { event: EventView }) {
         <p className="event-card__meta">
           <span className="mono">{date.time}</span>
           <span aria-hidden="true">·</span>
-          <span>{event.city}</span>
+          <span>{formatPlace(event.city, event.state)}</span>
         </p>
         <div className="event-card__slots">
           <SlotStrip capacity={event.capacity} occupied={event.occupiedSpots} />

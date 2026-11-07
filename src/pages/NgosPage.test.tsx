@@ -25,7 +25,7 @@ vi.mock('../features/profiles/queries', () => ({ useNgoShowcase: () => state.que
 import { NgosPage } from './NgosPage'
 
 function ngo(id: string, name: string): NgoCard {
-  return { ngoId: id, accountId: `acc-${id}`, name, description: `Sobre ${name}`, city: 'Recife' }
+  return { ngoId: id, accountId: `acc-${id}`, name, description: `Sobre ${name}`, city: 'Recife', state: 'PE' }
 }
 
 function setup() {

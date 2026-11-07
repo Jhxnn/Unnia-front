@@ -17,7 +17,7 @@ import { SlotCaption, SlotStrip } from '../features/events/SlotStrip'
 import { eventsApi } from '../lib/api/endpoints'
 import { describeError, isApiError } from '../lib/api/errors'
 import type { EventView } from '../lib/api/types'
-import { formatFullDate, formatPeriod } from '../lib/format'
+import { formatFullDate, formatPeriod, formatPlace } from '../lib/format'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import { useNow } from '../lib/useNow'
 import './event-detail.css'
@@ -182,7 +182,7 @@ export function EventDetailPage() {
             <dt>Onde</dt>
             <dd>
               <span className="facts__strong">{event.address}</span>
-              <span className="facts__sub">{event.city}</span>
+              <span className="facts__sub">{formatPlace(event.city, event.state)}</span>
             </dd>
           </div>
         </dl>

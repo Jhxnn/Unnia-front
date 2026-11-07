@@ -99,3 +99,8 @@ export function timeAgo(iso: string, now: Date = new Date()): string {
 export function initialOf(name: string): string {
   return name.trim().charAt(0).toUpperCase() || '?'
 }
+
+/** "Recife - PE"; sem estado, só a cidade. */
+export function formatPlace(city: string, state?: string | null): string {
+  return state ? `${city} - ${state}` : city
+}

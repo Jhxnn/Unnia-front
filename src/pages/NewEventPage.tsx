@@ -4,6 +4,14 @@ import { Link, useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { FormError, TextArea, TextField } from '../components/Field'
 import { useToast } from '../components/useToast'
+import { AddressFields } from '../features/address/AddressFields'
+import {
+  EMPTY_ADDRESS,
+  composeAddressLine,
+  hasAddressErrors,
+  validateAddress,
+  type AddressErrors,
+} from '../features/address/address'
 import { eventKeys } from '../features/events/queries'
 import { eventsApi } from '../lib/api/endpoints'
 import { formErrorsFrom, type FormErrors } from '../lib/formErrors'
@@ -29,12 +37,12 @@ export function NewEventPage() {
   const [form, setForm] = useState({
     title: '',
     description: '',
-    address: '',
-    city: '',
     start: toLocalInput(start),
     end: toLocalInput(new Date(start.getTime() + 4 * 3600 * 1000)),
     capacity: '20',
   })
+  const [address, setAddress] = useState(EMPTY_ADDRESS)
+  const [addressErrors, setAddressErrors] = useState<AddressErrors>({})
   const [errors, setErrors] = useState<FormErrors>({ fields: {}, form: null })
   const [busy, setBusy] = useState(false)
 
@@ -43,6 +51,10 @@ export function NewEventPage() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setErrors({ fields: {}, form: null })
+
+    const found = validateAddress(address, 'full', true)
+    setAddressErrors(found)
+    if (hasAddressErrors(found)) return
 
     const capacity = Number(form.capacity)
     if (!Number.isInteger(capacity) || capacity < 1) {
@@ -59,8 +71,10 @@ export function NewEventPage() {
       const { eventId } = await eventsApi.create({
         title: form.title.trim(),
         description: form.description,
-        address: form.address.trim(),
-        city: form.city.trim(),
+        address: composeAddressLine(address),
+        city: address.city.trim(),
+        state: address.state,
+        cep: address.cep,
         start: localInputToIso(form.start),
         end: localInputToIso(form.end),
         capacity,
@@ -97,20 +111,15 @@ export function NewEventPage() {
           error={errors.fields.description}
           onChange={(event) => set('description')(event.target.value)}
         />
-        <TextField
-          label="Endereço"
-          autoComplete="street-address"
-          value={form.address}
-          error={errors.fields.address}
-          onChange={(event) => set('address')(event.target.value)}
-          required
-        />
-        <TextField
-          label="Cidade"
-          value={form.city}
-          error={errors.fields.city}
-          onChange={(event) => set('city')(event.target.value)}
-          required
+        <AddressFields
+          mode="full"
+          value={address}
+          onChange={setAddress}
+          errors={{
+            ...addressErrors,
+            street: addressErrors.street ?? errors.fields.address,
+            city: addressErrors.city ?? errors.fields.city,
+          }}
         />
         <div className="form-row">
           <TextField

@@ -9,6 +9,7 @@ import { AuthorPosts } from '../features/social/AuthorPosts'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import '../features/profiles/profiles.css'
 import './page.css'
+import { formatPlace } from '../lib/format'
 
 export function VolunteerProfilePage() {
   const { volunteerId = '' } = useParams()
@@ -32,7 +33,7 @@ export function VolunteerProfilePage() {
       <ProfileHeader
         name={profile.name}
         role="VOLUNTEER"
-        city={profile.city}
+        city={formatPlace(profile.city, profile.state)}
         about={profile.bio}
         badges={<span className="chip chip--vest">Voluntário</span>}
         actions={<ProfileActions accountId={profile.accountId} name={profile.name} />}

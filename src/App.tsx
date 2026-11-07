@@ -22,7 +22,6 @@ import { NgosPage } from './pages/NgosPage'
 import { NotificationsPage } from './pages/NotificationsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { PostPage } from './pages/PostPage'
-import { VerifyEmailPage } from './pages/VerifyEmailPage'
 import { RegisterChoicePage } from './pages/RegisterChoicePage'
 import { RegisterNgoPage } from './pages/RegisterNgoPage'
 import { RegisterVolunteerPage } from './pages/RegisterVolunteerPage'
@@ -50,7 +49,6 @@ const router = createBrowserRouter([
       { path: 'voluntarios/:volunteerId', element: <VolunteerProfilePage /> },
       { path: 'entrar', element: <LoginPage /> },
       { path: 'confirme-seu-email', element: <CheckEmailPage /> },
-      { path: 'verificar-email', element: <VerifyEmailPage /> },
       { path: 'cadastro', element: <RegisterChoicePage /> },
       { path: 'cadastro/voluntario', element: <RegisterVolunteerPage /> },
       { path: 'cadastro/ong', element: <RegisterNgoPage /> },

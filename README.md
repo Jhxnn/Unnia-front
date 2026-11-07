@@ -113,7 +113,7 @@ Os formulários com endereço (cadastros, evento novo, edição de evento e de p
 
 ## Confirmação de e-mail
 
-Depois do cadastro, a pessoa vai para `/confirme-seu-email` (reenvio com espera de 1 minuto) e só entra depois de abrir o link, que cai em `/verificar-email`. Um 403 no login leva à mesma tela.
+Depois do cadastro, a pessoa vai para `/confirme-seu-email` e digita o código de 6 números que chegou por e-mail (vale 15 minutos). A tela também reenvia o código, com espera de 1 minuto. Um 403 no login leva à mesma tela. Não há link para clicar no e-mail.
 
 ## Limites conhecidos
 

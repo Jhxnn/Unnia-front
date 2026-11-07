@@ -1,0 +1,140 @@
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* ---- selo de situação ---- */
+.phase {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: var(--step--1);
+  font-weight: 650;
+  white-space: nowrap;
+  background: var(--blue-wash);
+  color: var(--blue-deep);
+}
+
+.phase--draft {
+  background: var(--vest-wash);
+  color: var(--ink);
+}
+
+.phase--full,
+.phase--cancelled {
+  background: var(--stamp-wash);
+  color: var(--stamp);
+}
+
+.phase--ended {
+  background: var(--line);
+  color: var(--ink-soft);
+}
+
+/* ---- cartão do evento: uma "folha de inscrição" ---- */
+.event-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.6rem 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
+.event-card__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: start;
+  padding: var(--space-2) 0 var(--space-3);
+  background: var(--ink);
+  border-radius: var(--radius-m);
+  color: #fff;
+  line-height: 1;
+}
+
+.event-card__weekday,
+.event-card__month {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.event-card__month {
+  color: var(--vest);
+}
+
+.event-card__day {
+  margin-block: var(--space-1);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.event-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.event-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.event-card__title {
+  font-size: var(--step-1);
+}
+
+/* o link cobre o cartão inteiro, então o cartão todo é clicável */
+.event-card__link {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.event-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-l);
+}
+
+.event-card__link:hover {
+  color: var(--blue);
+}
+
+.event-card__meta {
+  display: flex;
+  gap: var(--space-2);
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+}
+
+.event-card__slots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+/* ---- listas de eventos ---- */
+.event-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+}

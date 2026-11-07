@@ -1,0 +1,68 @@
+/*
+  A fileira de vagas. Linha tracejada = vaga livre; marcada de amarelo com contorno de tinta = ocupada,
+  como um nome escrito com marca-texto numa lista de presença.
+*/
+.slots {
+  --slot-w: 14px;
+  --slot-h: 22px;
+  --slot-gap: 4px;
+  display: flex;
+  gap: var(--slot-gap);
+}
+
+.slots--lg {
+  --slot-w: 20px;
+  --slot-h: 32px;
+  --slot-gap: 6px;
+}
+
+.slots--xl {
+  --slot-w: clamp(16px, 2.4vw, 30px);
+  --slot-h: clamp(40px, 6.4vw, 76px);
+  --slot-gap: clamp(5px, 0.8vw, 10px);
+}
+
+.slots__slot {
+  flex: 1 1 0;
+  min-width: 6px;
+  max-width: var(--slot-w);
+  height: var(--slot-h);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+}
+
+/* na escala grande a vaga livre é uma linha de assinatura tracejada; pequena, o tracejado vira ruído */
+.slots--xl .slots__slot:not(.slots__slot--filled) {
+  border: 2px dashed var(--line-strong);
+}
+
+.slots__slot--filled {
+  background: var(--vest);
+  border: 2px solid var(--ink);
+  transform-origin: bottom;
+  animation: slot-fill 0.5s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 22ms);
+}
+
+@keyframes slot-fill {
+  from {
+    transform: scaleY(0.15);
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--line-strong);
+  }
+}
+
+.slot-caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+.slot-caption__count {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ink);
+}

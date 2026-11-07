@@ -1,0 +1,107 @@
+.page-head {
+  margin-bottom: var(--space-6);
+}
+
+.page-head__title {
+  font-size: var(--step-3);
+}
+
+.page-head__lead {
+  max-width: 38rem;
+  margin-top: var(--space-3);
+  color: var(--ink-soft);
+}
+
+.filters {
+  max-width: 20rem;
+  margin-bottom: var(--space-5);
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6);
+}
+
+.notice--spaced {
+  margin-bottom: var(--space-5);
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* ---- formulários ---- */
+.form-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+}
+
+.form-row {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.form-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.form-aside {
+  margin-top: var(--space-5);
+  color: var(--ink-soft);
+}
+
+/* ---- escolha de tipo de conta ---- */
+.choices {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-l);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    transform 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+.choice:hover {
+  color: var(--ink);
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 var(--vest);
+}
+
+.choice__title {
+  font-size: var(--step-2);
+}
+
+.choice__text {
+  color: var(--ink-soft);
+}
+
+.choice__go {
+  margin-top: auto;
+  color: var(--blue);
+  font-weight: 700;
+}

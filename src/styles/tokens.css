@@ -1,0 +1,62 @@
+/*
+  Tokens do Unnia.
+  Paleta tirada do universo do voluntariado: a tinta do carimbo, o azul das camisetas de ONG e o
+  amarelo-colete que preenche as vagas.
+*/
+:root {
+  /* cor */
+  --ink: #0e1330;
+  --ink-soft: #3a4166;
+  --ink-faint: #667094;
+  --paper: #f2f4fb;
+  --card: #ffffff;
+  --line: #d9deef;
+  --line-strong: #b4bddc;
+
+  --blue: #2338d0;
+  --blue-deep: #1a2aa3;
+  --blue-wash: #e4e8fb;
+
+  --vest: #ffd21f;
+  --vest-deep: #e6b800;
+  --vest-wash: #fff6cf;
+
+  --stamp: #c8331f;
+  --stamp-wash: #fde9e5;
+  --ok: #17794f;
+  --ok-wash: #def5ea;
+
+  /* tipografia */
+  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3rem);
+  --step-4: clamp(2.6rem, 1.9rem + 3.6vw, 4.8rem);
+
+  /* espaço e forma */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 16px;
+
+  --shadow-card: 0 1px 0 rgb(14 19 48 / 0.04), 0 10px 28px -16px rgb(14 19 48 / 0.28);
+  --shadow-lift: 0 1px 0 rgb(14 19 48 / 0.05), 0 18px 36px -18px rgb(14 19 48 / 0.38);
+
+  --page-width: 74rem;
+  --page-gutter: clamp(1rem, 4vw, 2rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

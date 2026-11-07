@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router'
+import { usePendingAdminWork } from '../features/admin/queries'
 import { useMe } from '../features/auth/useMe'
 import { useSession } from '../features/auth/useSession'
 import { useUnreadMessages } from '../features/messaging/queries'
@@ -30,6 +31,7 @@ function Header() {
   const signedIn = status === 'authenticated'
   const unreadMessages = useUnreadMessages(signedIn)
   const unreadNotifications = useUnreadNotifications(signedIn)
+  const pendingAdminWork = usePendingAdminWork(session?.role === 'ADMIN')
 
   async function handleSignOut() {
     await signOut()
@@ -64,6 +66,7 @@ function Header() {
           {session?.role === 'ADMIN' ? (
             <NavLink to="/admin" className={navClass}>
               Painel da equipe
+              <Badge count={pendingAdminWork} label="pendências" />
             </NavLink>
           ) : null}
           {session?.role === 'NGO' ? (

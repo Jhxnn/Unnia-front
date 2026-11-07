@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery, useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '../../components/useToast'
 import { adminApi } from '../../lib/api/endpoints'
 import { describeError } from '../../lib/api/errors'
@@ -44,4 +44,28 @@ export function useAdminAction<TInput>(action: (input: TInput) => Promise<void>,
     },
     onError: (error) => toast.error(describeError(error)),
   })
+}
+
+const PENDING_REFRESH_MS = 60_000
+const PENDING_SAMPLE = 50
+
+/** ONGs aguardando verificação mais denúncias abertas, para o selo do menu. Conta até uma página de cada. */
+export function usePendingAdminWork(enabled: boolean): number {
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: [...adminKeys.all, 'pending-ngos'],
+        queryFn: () => adminApi.ngos('PENDING', 0, PENDING_SAMPLE),
+        enabled,
+        refetchInterval: PENDING_REFRESH_MS,
+      },
+      {
+        queryKey: [...adminKeys.all, 'open-reports'],
+        queryFn: () => adminApi.reports(0, PENDING_SAMPLE),
+        enabled,
+        refetchInterval: PENDING_REFRESH_MS,
+      },
+    ],
+  })
+  return results.reduce((total, result) => total + (result.data?.length ?? 0), 0)
 }

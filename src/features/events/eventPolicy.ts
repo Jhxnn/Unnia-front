@@ -34,6 +34,10 @@ export interface EventActions {
     /** Publicar exige ONG verificada; este campo explica por que o botão está bloqueado. */
     publishBlockedByVerification: boolean
     canCancel: boolean
+    /** Detalhes e vagas mudam enquanto o evento não foi cancelado nem encerrado, como no backend. */
+    canEdit: boolean
+    /** Remarcar exige um novo horário no futuro, então não faz sentido com o evento em andamento. */
+    canReschedule: boolean
     canFinish: boolean
     /** Só com o evento publicado e já iniciado, como no backend. */
     canRecordAttendance: boolean
@@ -64,6 +68,8 @@ export function eventActions({ event, me, isRegistered, now }: Input): EventActi
       canPublish: isOwner && phase === 'draft',
       publishBlockedByVerification: isOwner && phase === 'draft' && me?.verificationStatus !== 'VERIFIED',
       canCancel: isOwner && (phase === 'draft' || notStarted || phase === 'ongoing'),
+      canEdit: isOwner && (phase === 'draft' || notStarted || phase === 'ongoing'),
+      canReschedule: isOwner && (phase === 'draft' || notStarted),
       canFinish: isOwner && event.status === 'PUBLISHED' && new Date(event.end) <= now,
       canRecordAttendance: isOwner && event.status === 'PUBLISHED' && new Date(event.start) <= now,
       canSeeRegistrants: isOwner && phase !== 'draft',

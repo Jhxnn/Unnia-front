@@ -80,6 +80,14 @@ export interface NewEventInput {
   capacity: number
 }
 
+/** PUT /api/events/{id}: o que muda sem mexer em horário nem vagas. */
+export interface EventDetailsInput {
+  title: string
+  description: string
+  address: string
+  city: string
+}
+
 export interface RegisterVolunteerInput {
   email: string
   password: string

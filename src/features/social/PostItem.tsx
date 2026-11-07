@@ -12,6 +12,7 @@ import {
   useComments,
   useDeleteComment,
   useDeletePost,
+  useEditPost,
   useReact,
   useReply,
 } from './queries'
@@ -47,6 +48,7 @@ export function PostItem({ post, defaultOpen = false }: { post: PostView; defaul
   const [open, setOpen] = useState(defaultOpen)
   const react = useReact()
   const remove = useDeletePost()
+  const edit = useEditPost()
   const viewerAccountId = session?.accountId ?? null
   const mine = viewerAccountId === post.authorId
 
@@ -55,6 +57,8 @@ export function PostItem({ post, defaultOpen = false }: { post: PostView; defaul
       post={post}
       now={now}
       canDelete={mine}
+      onEdit={mine ? (text) => edit.mutate({ postId: post.postId, text }) : undefined}
+      editing={edit.isPending}
       reacting={react.isPending}
       commentsOpen={open}
       onReact={(type) => react.mutate({ postId: post.postId, type })}

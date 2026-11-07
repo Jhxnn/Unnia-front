@@ -107,6 +107,11 @@ function SignUpPanel({ event }: { event: EventView }) {
               Publicar evento
             </Button>
           ) : null}
+          {actions.owner.canEdit ? (
+            <ButtonLink variant="secondary" to={`/ong/eventos/${event.eventId}/editar`}>
+              Editar evento
+            </ButtonLink>
+          ) : null}
           {actions.owner.canFinish ? (
             <Button variant="secondary" busy={finish.isPending} onClick={() => finish.mutate(event.eventId)}>
               Encerrar evento

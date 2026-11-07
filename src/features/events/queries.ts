@@ -88,3 +88,16 @@ export function useEventAction(action: (eventId: string) => Promise<void>, succe
     onError: (error) => toast.error(describeError(error)),
   })
 }
+
+/** Edição de um evento (detalhes, horário ou vagas): avisa o resultado e atualiza as listas. */
+export function useEventEdit<TInput>(action: (input: TInput) => Promise<void>, successMessage: string) {
+  const queryClient = useQueryClient()
+  const toast = useToast()
+  return useMutation({
+    mutationFn: action,
+    onSuccess: () => {
+      toast.success(successMessage)
+      return queryClient.invalidateQueries({ queryKey: eventKeys.all })
+    },
+  })
+}

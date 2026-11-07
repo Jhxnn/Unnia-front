@@ -64,6 +64,14 @@ export function usePublishPost(onDone?: () => void) {
   return useSocialMutation((input: PublishPostInput) => postsApi.publish(input), 'Publicado.', onDone)
 }
 
+export function useEditPost(onDone?: () => void) {
+  return useSocialMutation(
+    ({ postId, text }: { postId: string; text: string }) => postsApi.edit(postId, text),
+    'Postagem atualizada.',
+    onDone,
+  )
+}
+
 export function useDeletePost() {
   return useSocialMutation((postId: string) => postsApi.remove(postId), 'Postagem excluída.')
 }

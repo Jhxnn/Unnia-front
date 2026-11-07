@@ -1,6 +1,7 @@
 import { request } from './client'
 import type {
   CommentView,
+  EventDetailsInput,
   ConversationView,
   EventView,
   FollowStatus,
@@ -57,6 +58,12 @@ export const eventsApi = {
   /** Eventos em que o voluntário autenticado tem inscrição ativa. */
   registered: () => request<EventView[]>('/api/events/registered'),
   create: (input: NewEventInput) => request<{ eventId: string }>('/api/events', { method: 'POST', body: input }),
+  update: (eventId: string, input: EventDetailsInput) =>
+    request<void>(`/api/events/${eventId}`, { method: 'PUT', body: input }),
+  reschedule: (eventId: string, start: string, end: string) =>
+    request<void>(`/api/events/${eventId}/schedule`, { method: 'PUT', body: { start, end } }),
+  changeCapacity: (eventId: string, capacity: number) =>
+    request<void>(`/api/events/${eventId}/capacity`, { method: 'PUT', body: { capacity } }),
   publish: (eventId: string) => request<void>(`/api/events/${eventId}/publish`, { method: 'POST' }),
   cancel: (eventId: string) => request<void>(`/api/events/${eventId}/cancel`, { method: 'POST' }),
   finish: (eventId: string) => request<void>(`/api/events/${eventId}/finish`, { method: 'POST' }),
@@ -99,6 +106,7 @@ export const postsApi = {
   get: (postId: string) => request<PostView>(`/api/posts/${postId}`),
   byAuthor: (accountId: string) => request<PostView[]>(`/api/posts/author/${accountId}`),
   publish: (input: PublishPostInput) => request<{ postId: string }>('/api/posts', { method: 'POST', body: input }),
+  edit: (postId: string, text: string) => request<void>(`/api/posts/${postId}`, { method: 'PUT', body: { text } }),
   remove: (postId: string) => request<void>(`/api/posts/${postId}`, { method: 'DELETE' }),
   comments: (postId: string) => request<CommentView[]>(`/api/posts/${postId}/comments`),
   comment: (postId: string, text: string) =>

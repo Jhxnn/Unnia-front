@@ -7,6 +7,7 @@ import { ApiError } from './lib/api/errors'
 import { AdminPage } from './pages/AdminPage'
 import { EditProfilePage } from './pages/EditProfilePage'
 import { FeedPage } from './pages/FeedPage'
+import { EditEventPage } from './pages/EditEventPage'
 import { EventDetailPage } from './pages/EventDetailPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'ong/eventos', element: <NgoEventsPage /> },
           { path: 'ong/eventos/novo', element: <NewEventPage /> },
+          { path: 'ong/eventos/:eventId/editar', element: <EditEventPage /> },
         ],
       },
       {

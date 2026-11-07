@@ -112,18 +112,6 @@
   overflow: hidden;
 }
 
-/* edição do próprio perfil */
-.settings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-.settings__title {
-  margin-bottom: var(--space-3);
-  font-size: var(--step-2);
-}
-
 @media (max-width: 34rem) {
   .profile-head {
     flex-direction: column;

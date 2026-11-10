@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '../../components/useToast'
-import { followsApi, postsApi } from '../../lib/api/endpoints'
+import { followsApi, mediaApi, postsApi } from '../../lib/api/endpoints'
 import { describeError } from '../../lib/api/errors'
 import type { PublishPostInput, ReactionType } from '../../lib/api/types'
 
@@ -119,6 +119,15 @@ export function useToggleFollow(accountId: string) {
         queryClient.invalidateQueries({ queryKey: socialKeys.feed }),
       ])
     },
+    onError: (error) => toast.error(describeError(error)),
+  })
+}
+
+/** Envia uma imagem para o armazenamento. Não mexe nas listas: só a postagem publicada as muda. */
+export function useUploadImage() {
+  const toast = useToast()
+  return useMutation({
+    mutationFn: (file: File) => mediaApi.upload(file),
     onError: (error) => toast.error(describeError(error)),
   })
 }

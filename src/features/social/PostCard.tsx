@@ -87,6 +87,20 @@ export function PostCard({
         </form>
       )}
 
+      {post.media.some((item) => item.type === 'IMAGE') ? (
+        <ul className={`post__images post__images--${Math.min(post.media.length, 4)}`} aria-label="Imagens da postagem">
+          {post.media
+            .filter((item) => item.type === 'IMAGE')
+            .map((item) => (
+              <li key={item.url}>
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  <img src={item.url} alt="Imagem da postagem" loading="lazy" />
+                </a>
+              </li>
+            ))}
+        </ul>
+      ) : null}
+
       {post.linkedEventId ? (
         <Link to={`/eventos/${post.linkedEventId}`} className="post__event">
           Ver o evento

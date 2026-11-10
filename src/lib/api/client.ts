@@ -12,6 +12,8 @@ const DEFAULT_RETRY_AFTER_SECONDS = 60
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   body?: unknown
+  /** Envio de arquivo (multipart). O navegador define o cabeçalho com o limite do formulário. */
+  form?: FormData
   query?: Record<string, string | number | boolean | undefined>
   /** Padrão: true. Rotas públicas de autenticação (login, cadastro, refresh) usam false. */
   auth?: boolean
@@ -58,13 +60,13 @@ function buildUrl(path: string, query?: RequestOptions['query']): string {
 
 async function send(path: string, options: RequestOptions, token: string | null): Promise<Response> {
   const headers: Record<string, string> = { Accept: 'application/json' }
-  if (options.body !== undefined) headers['Content-Type'] = 'application/json'
+  if (options.body !== undefined && !options.form) headers['Content-Type'] = 'application/json'
   if (token) headers.Authorization = `Bearer ${token}`
   try {
     return await fetch(buildUrl(path, options.query), {
       method: options.method ?? 'GET',
       headers,
-      body: options.body === undefined ? undefined : JSON.stringify(options.body),
+      body: options.form ?? (options.body === undefined ? undefined : JSON.stringify(options.body)),
       signal: options.signal,
     })
   } catch (error) {

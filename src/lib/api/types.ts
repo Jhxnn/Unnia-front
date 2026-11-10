@@ -219,6 +219,14 @@ export interface FollowStatus {
 export interface PublishPostInput {
   text: string
   linkedEventId?: string
+  /** Imagens já enviadas por POST /api/media. */
+  media?: MediaRef[]
+}
+
+/** POST /api/media */
+export interface UploadedMedia {
+  url: string
+  type: 'IMAGE'
 }
 
 // ---- perfis

@@ -38,6 +38,7 @@ vi.mock('../features/events/queries', () => ({
 vi.mock('../features/social/queries', () => ({
   useFeed: () => state.feed,
   usePublishPost: () => ({ mutate: state.publish, isPending: false }),
+  useUploadImage: () => ({ mutateAsync: vi.fn() }),
 }))
 vi.mock('../features/social/PostItem', () => ({
   PostItem: ({ post }: { post: PostView }) => <article>{post.text}</article>,

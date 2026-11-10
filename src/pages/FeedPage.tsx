@@ -5,7 +5,7 @@ import { useSession } from '../features/auth/useSession'
 import { useMyEvents } from '../features/events/queries'
 import { PostComposer } from '../features/social/PostComposer'
 import { PostItem } from '../features/social/PostItem'
-import { useFeed, usePublishPost } from '../features/social/queries'
+import { useFeed, usePublishPost, useUploadImage } from '../features/social/queries'
 import { describeError } from '../lib/api/errors'
 import { useDocumentTitle } from '../lib/useDocumentTitle'
 import '../features/social/social.css'
@@ -17,6 +17,7 @@ export function FeedPage() {
   const feed = useFeed()
   const myEvents = useMyEvents(session?.role === 'NGO')
   const publish = usePublishPost()
+  const upload = useUploadImage()
   const promotable = (myEvents.data ?? []).filter((event) => event.status === 'PUBLISHED')
 
   const posts = feed.data?.pages.flat() ?? []
@@ -28,7 +29,12 @@ export function FeedPage() {
         <p className="page-head__lead">As novidades de quem você segue e as suas próprias publicações.</p>
       </header>
 
-      <PostComposer busy={publish.isPending} events={promotable} onSubmit={(input) => publish.mutate(input)} />
+      <PostComposer
+        busy={publish.isPending}
+        events={promotable}
+        onSubmit={(input) => publish.mutate(input)}
+        onUpload={(file) => upload.mutateAsync(file).then((media) => media.url)}
+      />
 
       {feed.isPending ? (
         <Spinner label="Buscando as publicações…" />

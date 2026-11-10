@@ -170,4 +170,42 @@ describe('PostCard', () => {
 
     expect(screen.getByRole('button', { name: 'Salvar' })).toBeDisabled()
   })
+  it('mostra as imagens da postagem, abrindo a original em outra aba', () => {
+    setup({
+      post: post({
+        media: [
+          { url: 'https://cdn/a.png', type: 'IMAGE' },
+          { url: 'https://cdn/b.png', type: 'IMAGE' },
+        ],
+      }),
+    })
+
+    const images = screen.getAllByAltText('Imagem da postagem')
+    expect(images).toHaveLength(2)
+    expect(images[0]).toHaveAttribute('src', 'https://cdn/a.png')
+    expect(images[0]).toHaveAttribute('loading', 'lazy')
+    const link = images[0]?.closest('a')
+    expect(link).toHaveAttribute('href', 'https://cdn/a.png')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+  })
+
+  it('sem imagens, não desenha a grade', () => {
+    setup()
+
+    expect(screen.queryByRole('list', { name: 'Imagens da postagem' })).not.toBeInTheDocument()
+  })
+
+  it('só desenha mídia do tipo imagem', () => {
+    setup({
+      post: post({
+        media: [
+          { url: 'https://cdn/a.png', type: 'IMAGE' },
+          { url: 'https://cdn/v.mp4', type: 'VIDEO' },
+        ],
+      }),
+    })
+
+    expect(screen.getAllByAltText('Imagem da postagem')).toHaveLength(1)
+  })
 })

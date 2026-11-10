@@ -22,6 +22,7 @@ import type {
   ReportTargetType,
   ReportView,
   UpdateNgoInput,
+  UploadedMedia,
   UpdateVolunteerInput,
   VerificationStatus,
   VolunteerProfile,
@@ -168,4 +169,13 @@ export const notificationsApi = {
   markRead: (notificationId: string) =>
     request<void>(`/api/notifications/${notificationId}/read`, { method: 'POST' }),
   markAllRead: () => request<void>('/api/notifications/read-all', { method: 'POST' }),
+}
+
+export const mediaApi = {
+  /** Envia uma imagem (JPEG, PNG, WebP ou GIF, até 5 MB) e devolve a URL para anexar à postagem. */
+  upload: (file: File) => {
+    const form = new FormData()
+    form.append('file', file)
+    return request<UploadedMedia>('/api/media', { method: 'POST', form })
+  },
 }

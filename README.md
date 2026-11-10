@@ -114,7 +114,11 @@ Os formulários com endereço (cadastros, evento novo, edição de evento e de p
 
 Depois do cadastro, a pessoa vai para `/confirme-seu-email` e digita o código de 6 números que chegou por e-mail (vale 15 minutos). A tela também reenvia o código, com espera de 1 minuto. Um 403 no login leva à mesma tela. Não há link para clicar no e-mail.
 
+## Imagens nas postagens
+
+O compositor tem **Adicionar imagem** (até 4 por postagem, JPEG, PNG, WebP ou GIF, 5 MB cada). A imagem vai para `POST /api/media`, que a guarda no Supabase Storage (configuração no `docs/SUPABASE.md` do backend), e a postagem leva só as URLs. Sem o Supabase configurado, o envio responde que as imagens ainda não estão configuradas e o resto do app funciona.
+
 ## Limites conhecidos
 
 - Não há tela para promover alguém a administrador (a API também não oferece): o administrador é o da seed.
-- Postagens aceitam texto e o atalho para um evento; a API prevê mídia (imagem e vídeo), mas não há upload.
+- Só imagens; vídeo não é aceito.

@@ -3,7 +3,8 @@ import { useToast } from '../../components/useToast'
 import { notificationsApi } from '../../lib/api/endpoints'
 import { describeError } from '../../lib/api/errors'
 
-const UNREAD_REFRESH_MS = 30_000
+// o canal de tempo real (SSE) avisa na hora; esta consulta é só a rede de segurança
+const UNREAD_REFRESH_MS = 60_000
 export const NOTIFICATIONS_PAGE_SIZE = 50
 
 export const notificationKeys = {

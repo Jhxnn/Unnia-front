@@ -87,10 +87,9 @@ entre abas, relendo sempre o token mais recente do storage. Isso está coberto p
 
 Trocar a senha encerra todas as sessões da conta no servidor, então o app faz logout e leva ao login.
 
-### Atualização sem push
+### Tempo real (SSE)
 
-A API não empurra novidades. Mensagens, notificações e a contagem de pendências do admin são consultadas de
-tempos em tempos (8 a 60 segundos) enquanto a aba está aberta.
+O app abre uma conexão `GET /api/stream` (Server-Sent Events) enquanto há sessão. O servidor avisa na hora quando chega mensagem, comentário, reação, seguidor, inscrição ou decisão sobre a ONG, e o app busca de novo só as telas afetadas (`features/realtime`). O `EventSource` do navegador não envia o cabeçalho `Authorization`, então o fluxo é lido com `fetch` (`lib/api/sse.ts`), com reconexão automática e espera crescente. Ao reconectar, mensagens e notificações são recarregadas. As consultas periódicas (a cada 60 s) ficam como rede de segurança. Atrás de um proxy, a rota `/api/stream` precisa de `proxy_buffering off` (já configurado no `nginx.conf`).
 
 ### Limite de requisições
 

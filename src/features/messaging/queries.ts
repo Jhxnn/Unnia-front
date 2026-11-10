@@ -3,8 +3,9 @@ import { useToast } from '../../components/useToast'
 import { messagesApi } from '../../lib/api/endpoints'
 import { describeError } from '../../lib/api/errors'
 
-const CONVERSATIONS_REFRESH_MS = 15_000
-const THREAD_REFRESH_MS = 8_000
+// o canal de tempo real (SSE) avisa na hora; estas consultas só cobrem o caso de ele estar fora do ar
+const CONVERSATIONS_REFRESH_MS = 60_000
+const THREAD_REFRESH_MS = 60_000
 
 export const messagingKeys = {
   all: ['messaging'] as const,

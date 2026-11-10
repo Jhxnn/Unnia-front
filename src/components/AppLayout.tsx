@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router'
 import { usePendingAdminWork } from '../features/admin/queries'
 import { useMe } from '../features/auth/useMe'
+import { useRealtime } from '../features/realtime/useRealtime'
 import { useSession } from '../features/auth/useSession'
 import { useUnreadMessages } from '../features/messaging/queries'
 import { useUnreadNotifications } from '../features/notifications/queries'
@@ -29,6 +30,7 @@ function Header() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const signedIn = status === 'authenticated'
+  useRealtime(signedIn)
   const unreadMessages = useUnreadMessages(signedIn)
   const unreadNotifications = useUnreadNotifications(signedIn)
   const pendingAdminWork = usePendingAdminWork(session?.role === 'ADMIN')

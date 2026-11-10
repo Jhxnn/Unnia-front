@@ -161,6 +161,11 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   return (await response.json()) as T
 }
 
+/** Token de acesso válido (renovando se estiver perto de vencer), ou nulo sem sessão. Para o canal de tempo real. */
+export function accessToken(): Promise<string | null> {
+  return currentAccessToken()
+}
+
 /** Faz login e passa a guardar a sessão. */
 export async function signIn(email: string, password: string): Promise<void> {
   const response = await request<SessionResponse>('/api/auth/login', {

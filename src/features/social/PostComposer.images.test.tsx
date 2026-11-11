@@ -41,7 +41,8 @@ describe('PostComposer: imagens', () => {
 
     expect(await screen.findByAltText('foto.png')).toHaveAttribute('src', 'https://cdn/posts/a.png')
     expect(onUpload).toHaveBeenCalledTimes(1)
-    expect((onUpload.mock.calls[0]?.[0] as File).name).toBe('foto.png')
+    const [sent] = onUpload.mock.calls[0] as [File]
+    expect(sent.name).toBe('foto.png')
   })
 
   it('enquanto envia, mostra o andamento e bloqueia publicar', async () => {

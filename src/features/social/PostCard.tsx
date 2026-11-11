@@ -7,6 +7,17 @@ import { AuthorLine } from './AuthorLine'
 import { Button } from '../../components/Button'
 import { ReactionBar } from './ReactionBar'
 
+/** Uma imagem da postagem. Se não carregar (arquivo removido, rede), mostra um aviso em vez de uma faixa vazia. */
+function PostImage({ url }: { url: string }) {
+  const [failed, setFailed] = useState(false)
+  if (failed) return <span className="post__image-missing">Imagem indisponível</span>
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      <img src={url} alt="Imagem da postagem" loading="lazy" onError={() => setFailed(true)} />
+    </a>
+  )
+}
+
 interface Props {
   post: PostView
   now: Date
@@ -93,9 +104,7 @@ export function PostCard({
             .filter((item) => item.type === 'IMAGE')
             .map((item) => (
               <li key={item.url}>
-                <a href={item.url} target="_blank" rel="noopener noreferrer">
-                  <img src={item.url} alt="Imagem da postagem" loading="lazy" />
-                </a>
+                <PostImage url={item.url} />
               </li>
             ))}
         </ul>

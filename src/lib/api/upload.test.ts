@@ -40,8 +40,10 @@ describe('envio de imagem', () => {
     const [url, init] = fetchMock.mock.calls[0] ?? [undefined, undefined]
     expect(String(url)).toBe('/api/media')
     expect(init?.method).toBe('POST')
-    expect(init?.body).toBeInstanceOf(FormData)
-    expect(((init?.body as FormData).get('file') as File).name).toBe('a.png')
+    const form = init?.body
+    expect(form).toBeInstanceOf(FormData)
+    const sentFile = (form as FormData).get('file') as File
+    expect(sentFile.name).toBe('a.png')
     const headers = (init?.headers ?? {}) as Record<string, string>
     expect(headers.Authorization).toBe('Bearer access-1')
   })
